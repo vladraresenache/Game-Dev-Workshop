@@ -8996,6 +8996,7 @@ MonoBehaviour:
   codeInputField: {fileID: 25654423}
   submitButton: {fileID: 2034200319}
   inputPanel: {fileID: 1919346717}
+  playerTransform: {fileID: 553423395}
 --- !u!4 &485966962 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 423596, guid: 0a252d80add0348439615bc02e74781d, type: 3}
@@ -13623,7 +13624,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &935508497 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6280396cec2d427488f7967d58bb065e, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8955878726531242638, guid: 6280396cec2d427488f7967d58bb065e, type: 3}
   m_PrefabInstance: {fileID: 1160692}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &937955181 stripped

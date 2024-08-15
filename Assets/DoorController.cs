@@ -6,30 +6,34 @@ public class DoorController1 : MonoBehaviour
     public Animator animator;
     public InputField codeInputField;
     public Button submitButton;
-    public GameObject inputPanel;  // Un obiect care conține atât InputField cât și Button
+    public GameObject inputPanel;  // An object that contains both InputField and Button
+    public Transform playerTransform;
     private string secretCode = "0610";
     private bool isPanelActive = false;
+    private float activationDistance = 5f;
 
     void Start()
     {
-        // Asigură-te că panoul de input este dezactivat la început
+        // Ensure the input panel is deactivated at the start
         inputPanel.SetActive(false);
 
-        // Setează listener-ul pentru butonul de submit
+        // Set the listener for the submit button
         submitButton.onClick.AddListener(CheckCode);
     }
 
     void Update()
     {
-        // Afișează/că ascunde panoul de input la apăsarea tastei "E"
-        if (Input.GetKeyDown(KeyCode.E))
+        float distanceToPlayer = Vector3.Distance(playerTransform.position, transform.position);
+
+        // Toggle the input panel on/off when the "E" key is pressed and the player is within range
+        if (distanceToPlayer <= activationDistance && Input.GetKeyDown(KeyCode.E))
         {
-            isPanelActive = !isPanelActive;  // Comută starea panoului
+            isPanelActive = !isPanelActive;  // Toggle the panel's state
             inputPanel.SetActive(isPanelActive);
 
             if (isPanelActive)
             {
-                // Setează focusul pe InputField când panoul este activat
+                // Set focus on the InputField when the panel is activated
                 codeInputField.Select();
                 codeInputField.ActivateInputField();
             }
@@ -38,29 +42,29 @@ public class DoorController1 : MonoBehaviour
 
     void CheckCode()
     {
-        // Verifică dacă codul introdus este corect
+        // Check if the entered code is correct
         if (codeInputField.text == secretCode)
         {
-            Debug.Log("Cod corect! Deschide ușa.");
+            Debug.Log("Correct code! Opening the door.");
             OpenDoor();
         }
         else
         {
-            Debug.Log("Cod incorect.");
-            // Poți adăuga un mesaj pentru utilizator aici, dacă vrei
+            Debug.Log("Incorrect code.");
+            // You can add a message for the user here if you want
         }
 
-        // Resetează câmpul de introducere a codului
+        // Reset the code input field
         codeInputField.text = "";
 
-        // Ascunde panoul de input după ce codul a fost verificat
+        // Hide the input panel after the code has been checked
         inputPanel.SetActive(false);
         isPanelActive = false;
     }
 
     void OpenDoor()
     {
-        // Setează parametru `isOpen` pe true pentru a declanșa animația de deschidere
+        // Set the `isOpen` parameter to true to trigger the door opening animation
         animator.SetBool("isOpen", true);
     }
 }
