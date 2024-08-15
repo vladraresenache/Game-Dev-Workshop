@@ -52,6 +52,12 @@ public class DoorController1 : MonoBehaviour
                 codeInputField.ActivateInputField();
             }
         }
+
+        // Check if the "Enter" key is pressed while the input panel is active
+        if (isPanelActive && Input.GetKeyDown(KeyCode.Return))
+        {
+            CheckCode();
+        }
     }
 
     void CheckCode()

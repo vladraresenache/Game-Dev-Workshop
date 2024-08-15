@@ -6,10 +6,27 @@ public class Player : MonoBehaviour
 {
     public Animator playerAnim;
     public Rigidbody playerRigid;
-    public float walkSpeed, walkBackSpeed, rotateSpeed, mouseSensitivity;
+    public float walkSpeed = 5f;          // Adjusted default speed
+    public float walkBackSpeed = 3f;      // Adjusted default speed
+    public float rotateSpeed = 700f;      // Adjusted for faster turning
+    public float mouseSensitivity = 2f;  // Adjust sensitivity for your needs
     private bool walking = false;
     public Transform playerTrans;
     public Transform cameraTrans; // Reference to the camera attached to the player
+
+    // Smooth movement variables
+    private Vector2 smoothMouse;
+    private Vector2 mouseSmoothVelocity;
+
+    // Sensitivity for smoothing
+    public float smoothTime = 0.1f;
+
+    void Start()
+    {
+        // Hide the cursor and lock it when the game starts
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     void FixedUpdate()
     {
@@ -26,48 +43,58 @@ public class Player : MonoBehaviour
     void HandleMovement()
     {
         // Forward and backward movement
+        Vector3 moveDirection = Vector3.zero;
+
         if (Input.GetKey(KeyCode.W))
         {
-            playerRigid.velocity = transform.forward * walkSpeed * Time.deltaTime;
+            moveDirection = transform.forward * walkSpeed;
             playerAnim.SetBool("isWalking", true);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            playerRigid.velocity = -transform.forward * walkBackSpeed * Time.deltaTime;
+            moveDirection = -transform.forward * walkBackSpeed;
             playerAnim.SetBool("isWalkingBack", true);
         }
         else
         {
-            playerRigid.velocity = Vector3.zero;
             playerAnim.SetBool("isWalking", false);
             playerAnim.SetBool("isWalkingBack", false);
         }
+
+        // Apply movement using AddForce for smoother motion
+        playerRigid.AddForce(moveDirection - playerRigid.velocity, ForceMode.VelocityChange);
     }
 
     void HandleRotation()
     {
-        // A and D key for player rotation
-        if (Input.GetKey(KeyCode.A))
+        // Handle player rotation using mouse movement
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            playerTrans.Rotate(0, -rotateSpeed * Time.deltaTime, 0);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            playerTrans.Rotate(0, rotateSpeed * Time.deltaTime, 0);
+            // Rotating the player based on mouse input
+            float horizontalInput = Input.GetAxis("Mouse X");
+            playerTrans.Rotate(0, horizontalInput * rotateSpeed * Time.deltaTime, 0);
         }
     }
 
     void HandleMouseLook()
     {
-        // Mouse movement for camera rotation
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // Get raw mouse input
+        float mouseX = Input.GetAxisRaw("Mouse X");
+        float mouseY = Input.GetAxisRaw("Mouse Y");
 
-        // Rotate the player around the Y-axis with mouse X movement
-        playerTrans.Rotate(0, mouseX, 0);
+        // Smooth the mouse input
+        smoothMouse.x = Mathf.SmoothDamp(smoothMouse.x, mouseX, ref mouseSmoothVelocity.x, smoothTime);
+        smoothMouse.y = Mathf.SmoothDamp(smoothMouse.y, mouseY, ref mouseSmoothVelocity.y, smoothTime);
 
-        // Rotate the camera vertically with mouse Y movement
-        cameraTrans.Rotate(-mouseY, 0, 0);
+        // Apply sensitivity and delta time
+        float mouseXSmoothed = smoothMouse.x * mouseSensitivity;
+        float mouseYSmoothed = smoothMouse.y * mouseSensitivity;
+
+        // Rotate the player around the Y-axis with smoothed mouse X movement
+        playerTrans.Rotate(0, mouseXSmoothed, 0);
+
+        // Rotate the camera vertically with smoothed mouse Y movement
+        cameraTrans.Rotate(-mouseYSmoothed, 0, 0);
 
         // Clamp vertical rotation to prevent over-rotation
         Vector3 clampedRotation = cameraTrans.localEulerAngles;
@@ -102,5 +129,12 @@ public class Player : MonoBehaviour
             playerAnim.ResetTrigger("walkBack");
             playerAnim.SetTrigger("idle");
         }
+    }
+
+    // Call this method to reset the cursor state when needed
+    public void ResetCursorState(bool isVisible)
+    {
+        Cursor.visible = isVisible;
+        Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }
