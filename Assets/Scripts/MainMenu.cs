@@ -28,10 +28,7 @@ public class MainMenu : MonoBehaviour
             uiCanvasGroup.alpha = 1; // Start with full visibility
         }
 
-        if (optionsMenu != null)
-        {
-            optionsMenu.SetActive(false); // Initially hide the options menu
-        }
+       
 
         if (optionsButton != null)
         {
@@ -42,6 +39,8 @@ public class MainMenu : MonoBehaviour
         {
             backButton.onClick.AddListener(HideOptionsMenu);
         }
+
+        Debug.Log("MainMenu script initialized.");
     }
 
     public void PlayGame()
@@ -71,7 +70,10 @@ public class MainMenu : MonoBehaviour
     private IEnumerator FadeToBlackAndHideUI()
     {
         if (blackScreen == null || uiCanvasGroup == null)
+        {
+            Debug.LogWarning("BlackScreen or UICanvasGroup is missing.");
             yield break;
+        }
 
         float elapsedTime = 0f;
 
@@ -101,27 +103,51 @@ public class MainMenu : MonoBehaviour
 
     public void ShowOptionsMenu()
     {
+        Debug.Log("ShowOptionsMenu called.");
+
         if (optionsMenu != null)
         {
             optionsMenu.SetActive(true); // Show the options menu
+            Debug.Log("Options menu activated.");
+        }
+        else
+        {
+            Debug.LogWarning("OptionsMenu GameObject is not assigned.");
         }
 
         if (mainMenu != null)
         {
             mainMenu.SetActive(false); // Hide the main menu
+            Debug.Log("Main menu deactivated.");
+        }
+        else
+        {
+            Debug.LogWarning("MainMenu GameObject is not assigned.");
         }
     }
 
     public void HideOptionsMenu()
     {
+        Debug.Log("HideOptionsMenu called.");
+
         if (optionsMenu != null)
         {
             optionsMenu.SetActive(false); // Hide the options menu
+            Debug.Log("Options menu deactivated.");
+        }
+        else
+        {
+            Debug.LogWarning("OptionsMenu GameObject is not assigned.");
         }
 
         if (mainMenu != null)
         {
             mainMenu.SetActive(true); // Show the main menu
+            Debug.Log("Main menu activated.");
+        }
+        else
+        {
+            Debug.LogWarning("MainMenu GameObject is not assigned.");
         }
     }
 }

@@ -14,6 +14,12 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start()
     {
+        // Ensure both menus are correctly set up in the Inspector
+        Debug.Assert(optionsMenu != null, "OptionsMenu is not assigned in the Inspector!");
+        Debug.Assert(mainMenu != null, "MainMenu is not assigned in the Inspector!");
+
+
+        Debug.Log("Start");
         // Initially hide the options menu
         if (optionsMenu != null)
         {
@@ -74,27 +80,33 @@ public class OptionsMenu : MonoBehaviour
 
     public void ShowOptionsMenu()
     {
+        
         if (optionsMenu != null)
         {
             optionsMenu.SetActive(true); // Show the options menu
+            
         }
 
         if (mainMenu != null)
         {
             mainMenu.SetActive(false); // Hide the main menu
+            
         }
     }
 
     public void HideOptionsMenu()
     {
+        
         if (optionsMenu != null)
         {
             optionsMenu.SetActive(false); // Hide the options menu
+            
         }
 
         if (mainMenu != null)
         {
             mainMenu.SetActive(true); // Show the main menu
+           
         }
     }
 
