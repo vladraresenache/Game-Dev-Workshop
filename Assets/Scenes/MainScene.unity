@@ -3465,6 +3465,7 @@ RectTransform:
   - {fileID: 1857284204}
   - {fileID: 1219273485}
   - {fileID: 1412821349}
+  - {fileID: 233239908}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3481,9 +3482,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 198312244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47dc73e0e5651241ae047c97403a2de, type: 3}
+  m_Script: {fileID: 11500000, guid: 840deb778fdb6bd41bccc9c5b8d9a114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenuCanvas: {fileID: 198312244}
+  indexMenuCanvas: {fileID: 1737686197}
+  settingsMenuCanvas: {fileID: 233239904}
 --- !u!1001 &202506355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4022,9 +4026,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233239904}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1881138037}
@@ -4034,13 +4038,13 @@ RectTransform:
   - {fileID: 1527027136}
   - {fileID: 972766430}
   - {fileID: 1264324547}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 198312248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 553.25006, y: 319.75}
+  m_SizeDelta: {x: 1106.5001, y: 639.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &233239909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4050,9 +4054,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 233239904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc016a50721a2eb44a2d2d6ba5a9c0cf, type: 3}
+  m_Script: {fileID: 11500000, guid: b10ee54cb9ddbe94883eb8c9134762f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsMenuCanvas: {fileID: 233239904}
+  pauseMenuCanvas: {fileID: 198312244}
+  soundSlider: {fileID: 972766429}
+  graphicsDropdown: {fileID: 1264324546}
+  audioMixer: {fileID: 24100000, guid: 4dd28a97ce5212c4881a8db6e4f6a7c9, type: 2}
 --- !u!1001 &240815783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20059,9 +20068,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 873645887f0c08a459542d3fe46e60da, type: 3}
+      - m_Target: {fileID: 198312249}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OpenSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34535,4 +34544,3 @@ SceneRoots:
   - {fileID: 2060608501}
   - {fileID: 973110545}
   - {fileID: 198312248}
-  - {fileID: 233239908}
