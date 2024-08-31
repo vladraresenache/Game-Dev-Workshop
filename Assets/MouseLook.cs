@@ -31,6 +31,16 @@ public class MouseLook : MonoBehaviour
     public AssetDisplayManager assetDisplayManager;
     public NotificationManager notificationManager;
 
+    public AudioSource unlockSound;  // AudioSource for the unlock sound effect
+
+    // Zoom variables
+    public Camera playerCamera;
+    public float zoomFOV = 20f;        // Field of view when zoomed in
+    public float normalFOV = 60f;      // Default field of view
+    public float zoomSpeed = 10f;      // Speed of zooming in and out
+
+    private bool isZoomed = false;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -38,6 +48,15 @@ public class MouseLook : MonoBehaviour
         exitInspectCanvas.SetActive(false);
         inventoryCanvas.SetActive(false);
         pauseMenuCanvas.SetActive(false); // Hide pause menu initially
+
+        // Ensure the camera has a reference
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main;
+        }
+
+        // Set the default FOV
+        playerCamera.fieldOfView = normalFOV;
     }
 
     void Update()
@@ -47,26 +66,20 @@ public class MouseLook : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            
-            Debug.Log(pauseMenuCanvas.activeSelf);
             if (pauseMenuCanvas.activeSelf)
             {
-                Debug.Log("resumeGame");
                 ResumeGame();
             }
             else
             {
-                Debug.Log("Game is pausing");
                 PauseGame();
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            
             if (isInventoryOpen)
             {
-                Debug.Log("tabMouse");
                 CloseInventory();
             }
             else
@@ -103,27 +116,39 @@ public class MouseLook : MonoBehaviour
         {
             DropObject();
         }
+
+        // Zoom functionality
+        if (Input.GetMouseButtonDown(1))  // Right mouse button for zooming
+        {
+            ToggleZoom();
+        }
     }
 
     void HandleMouseLook()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // Check if the camera has the tag "MainCamera"
+        if (playerCamera.CompareTag("MainCamera"))
+        {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.Rotate(Vector3.up * mouseX);
+        }
+        else
+        {
+            // Debugging information
+           
+        }
     }
 
     void PauseGame()
     {
-        Debug.Log("pauseGame is called");
         isGamePaused = true;
         pauseMenuCanvas.SetActive(true);
-
-        Debug.Log(pauseMenuCanvas.activeSelf);
 
         Cursor.lockState = CursorLockMode.None;
         player.GetComponent<CharacterController>().enabled = false;
@@ -142,9 +167,6 @@ public class MouseLook : MonoBehaviour
         player.GetComponent<CharacterController>().enabled = true;
         canMoveCamera = true;
         Time.timeScale = 1f; // Unfreeze the game
-
-        // Re-enable other UI elements
-        //if (inventoryCanvas != null) inventoryCanvas.SetActive(true);
     }
 
     public void OpenInventory()
@@ -224,7 +246,6 @@ public class MouseLook : MonoBehaviour
         if (pickUpObj.GetComponent<Rigidbody>())
         {
             currentlyHeldObject = pickUpObj;
-
             originalPosition = pickUpObj.transform.position;
             originalRotation = pickUpObj.transform.rotation;
 
@@ -232,7 +253,6 @@ public class MouseLook : MonoBehaviour
             crosshairCanvas.SetActive(false);
             inspectCanvas.SetActive(false);
             exitInspectCanvas.SetActive(true);
-
             pickUpObj.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 0.7f;
             player.GetComponent<CharacterController>().enabled = false;
 
@@ -280,6 +300,12 @@ public class MouseLook : MonoBehaviour
                 {
                     assetDisplayManager.UnlockText(textIndex);
 
+                    // Play the unlock sound effect
+                    if (unlockSound != null)
+                    {
+                        unlockSound.Play();
+                    }
+
                     if (notificationManager != null)
                     {
                         notificationManager.ShowNotification("New Document Unlocked\nPress [Tab] to read");
@@ -303,8 +329,23 @@ public class MouseLook : MonoBehaviour
                 return 3;
             case "Clue5":
                 return 4;
+            case "Clue6":
+                return 5;
             default:
                 return -1;
         }
+    }
+
+    void ToggleZoom()
+    {
+        if (isZoomed)
+        {
+            playerCamera.fieldOfView = normalFOV;
+        }
+        else
+        {
+            playerCamera.fieldOfView = zoomFOV;
+        }
+        isZoomed = !isZoomed;
     }
 }

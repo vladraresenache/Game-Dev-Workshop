@@ -10,10 +10,15 @@ public class DoorController1 : MonoBehaviour
     public GameObject inputPanel;  // An object that contains both InputField and Button
     public Transform playerTransform;
     public TextMeshProUGUI proximityText;  // Reference to your TextMeshPro component
-    private string secretCode = "0610";
+    public string secretCode = "";  // Can be empty to bypass code input
+    public bool isInteractable = true;  // New variable to control whether the door is interactable
     private bool isPanelActive = false;
     private bool isDoorOpen = false;  // Flag to check if the door has been opened
     private float activationDistance = 4f;
+
+    // Add references to the audio sources for opening and closing sounds
+    public AudioSource openSound;
+    public AudioSource closeSound;
 
     void Start()
     {
@@ -27,6 +32,18 @@ public class DoorController1 : MonoBehaviour
 
     void Update()
     {
+        // If the door is not interactable, hide the proximity text and disable interaction
+        if (!isInteractable)
+        {
+            proximityText.gameObject.SetActive(false);
+            if (isPanelActive)
+            {
+                inputPanel.SetActive(false);
+                isPanelActive = false;
+            }
+            return;
+        }
+
         if (isDoorOpen)
         {
             // If the door is already open, hide the proximity text and disable the input panel if active
@@ -49,6 +66,16 @@ public class DoorController1 : MonoBehaviour
         else
         {
             proximityText.gameObject.SetActive(false);
+        }
+
+        // Automatically open the door if no code is required
+        if (string.IsNullOrEmpty(secretCode))
+        {
+            if (distanceToPlayer <= activationDistance && Input.GetKeyDown(KeyCode.E))
+            {
+                OpenDoor();
+            }
+            return;  // Exit Update early since no code interaction is required
         }
 
         // Toggle the input panel on/off when the "E" key is pressed
@@ -97,8 +124,28 @@ public class DoorController1 : MonoBehaviour
 
     void OpenDoor()
     {
-        // Set the `isOpen` parameter to true to trigger the door opening animation
+        // Set the isOpen parameter to true to trigger the door opening animation
         animator.SetBool("isOpen", true);
         isDoorOpen = true;  // Set the flag to true to prevent reopening
+
+        // Play the opening sound
+        if (openSound != null)
+        {
+            openSound.Play();
+        }
+    }
+
+    // Optional: Method to close the door and play the closing sound
+    public void CloseDoor()
+    {
+        // Set the isOpen parameter to false to trigger the door closing animation
+        animator.SetBool("isOpen", false);
+        isDoorOpen = false;  // Reset the flag to allow reopening
+
+        // Play the closing sound
+        if (closeSound != null)
+        {
+            closeSound.Play();
+        }
     }
 }

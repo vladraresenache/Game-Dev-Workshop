@@ -15,7 +15,7 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        settingsMenuCanvas.SetActive(false);
+        
 
         // Set the slider value to match the current audio level
         float volume;
