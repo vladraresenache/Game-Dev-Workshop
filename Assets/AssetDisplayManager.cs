@@ -58,7 +58,7 @@ public class AssetDisplayManager : MonoBehaviour
     {
         if (index >= 0 && index < textUnlocked.Length)
         {
-            if (!textUnlocked[index]) // Check if text is already unlocked
+            if (!textUnlocked[index]) // Only unlock if it's not already unlocked
             {
                 textUnlocked[index] = true;
                 UpdateButtonLabel(index); // Update the button label when a text is unlocked

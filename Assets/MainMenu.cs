@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button backButton;       // Button to close the options menu
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private float waitTime = 2f; // Time to wait after fade to black
+    [SerializeField] public Image image;
 
     private void Start()
     {
@@ -124,6 +125,8 @@ public class MainMenu : MonoBehaviour
         {
             Debug.LogWarning("MainMenu GameObject is not assigned.");
         }
+
+        image.enabled = true;
     }
 
     public void HideOptionsMenu()
@@ -149,5 +152,7 @@ public class MainMenu : MonoBehaviour
         {
             Debug.LogWarning("MainMenu GameObject is not assigned.");
         }
+
+        image.enabled = false;
     }
 }

@@ -15,8 +15,6 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        settingsMenuCanvas.SetActive(false);
-
         // Set the slider value to match the current audio level
         float volume;
         audioMixer.GetFloat("MasterVolume", out volume);
@@ -35,14 +33,24 @@ public class SettingsMenu : MonoBehaviour
         }
     }
 
-    public void SetVolume(float volume)
+    public void SetVolume()
     {
-        audioMixer.SetFloat("MasterVolume", volume);
+        float volume = soundSlider.value;
+        Debug.Log("Volume set to: " + volume);
+        // Convert the slider value to a logarithmic scale if your slider is in linear scale (0 to 1)
+        // If the slider is already in dB (-80 to 0), this step is unnecessary
+        float dbVolume = Mathf.Log10(volume) * 20;
+
+        audioMixer.SetFloat("MasterVolume", dbVolume);
     }
 
-    public void SetGraphicsQuality(int qualityIndex)
+    public void SetGraphicsQuality()
     {
+        int qualityIndex = graphicsDropdown.value;
         QualitySettings.SetQualityLevel(qualityIndex);
+
+        // Close the settings menu after setting graphics quality
+        BackToPauseMenu();
     }
 
     public void BackToPauseMenu()

@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1135, y: -856}
+  m_AnchoredPosition: {x: -121, y: -290}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140508072
@@ -206,8 +206,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -527,7 +527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1553, y: -856}
+  m_AnchoredPosition: {x: 754, y: -293}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &942310992
@@ -577,8 +577,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -782,7 +782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 48, y: 0}
   m_SizeDelta: {x: 3000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809463209
@@ -805,31 +805,25 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Chicago,\n\nOctober 2015\n\nstory story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story \n\nstory story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story \n\n\n\nstory story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story story story story story story story story story story story story story
-    story "
+  m_text: "Chicago,\n\nOctober 2015\n\nA ruthless serial killer roamed the streets,
+    targeting children and evading capture with chilling efficiency. The city was
+    gripped by fear as the killer's pattern became all too clear. Detective John
+    Sinclair, renowned for his unyielding dedication, was deeply immersed in the
+    case, determined to put an end to the terror.\n\nTragedy struck when Sinclair\u2019s
+    own world was shattered. His two daughters, Kate and Sophie, became the killer\u2019s
+    victims. The loss was unbearable, leaving Sinclair devastated and lost in grief.
+    The case, once his sole focus, now felt like a haunting reminder of his personal
+    tragedy.\n\nOne night, amid his deep sorrow, Sinclair had a vivid dream of a
+    strange house. In this dream, the house was eerie and unsettling, filled with
+    shadows and a sense of foreboding. The dream was fragmented, but the house seemed
+    to call out to him, its details both intriguing and menacing.\n\nAwakening with
+    a new sense of urgency, Sinclair felt a mysterious connection between the dream
+    and the case. The house from his dream seemed to hold clues to the killer\u2019s
+    identity or next move. Driven by a renewed purpose, Sinclair decided to explore
+    this unsettling vision, hoping it might lead him to the resolution he so desperately
+    sought.\n\nIn his quest for justice and closure, Sinclair's journey had taken
+    an unexpected turn, guided by a haunting dream that might hold the key to ending
+    the nightmare."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -856,8 +850,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -892,7 +886,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 889.3765, y: 254.09644, z: 1008.02527, w: 180.44098}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
