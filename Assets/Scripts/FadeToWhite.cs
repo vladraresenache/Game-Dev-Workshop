@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;  // Required for TextMeshProUGUI
 using System.Collections;
+using UnityEngine.SceneManagement;  // Required for scene management
 
 public class FadeManager : MonoBehaviour
 {
@@ -97,7 +98,6 @@ public class FadeManager : MonoBehaviour
         for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
         {
             SetAlpha(text1, Mathf.Lerp(0f, 1f, t / fadeDuration));
-           
             yield return null;
         }
 
@@ -105,7 +105,6 @@ public class FadeManager : MonoBehaviour
         for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
         {
             SetAlpha(text1, Mathf.Lerp(1f, 0f, t / fadeDuration));
-            
             yield return null;
         }
     }
@@ -165,5 +164,26 @@ public class FadeManager : MonoBehaviour
     {
         yield return new WaitForSeconds(waitDuration);
         StartFadeToClear();
+    }
+
+    // Method to load the first scene
+    public void ReturnToFirstScene()
+    {
+        StartCoroutine(TransitionToFirstSceneCoroutine());
+    }
+
+    private IEnumerator TransitionToFirstSceneCoroutine()
+    {
+        // Fade to white
+        StartFadeToWhite();
+
+        // Wait for the fade to complete
+        yield return new WaitUntil(() => !isFadingToWhite && !isFadingToClear);
+
+        // Load the first scene
+        SceneManager.LoadScene(0); // Assuming the first scene has index 0
+
+        // Optionally, fade in from black after loading the new scene
+        // StartFadeFromBlack();
     }
 }

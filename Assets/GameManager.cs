@@ -1,12 +1,11 @@
 using UnityEngine;
-using TMPro; // For TextMeshPro components
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     public string predefinedCode = "1234"; // Predefined code to check against
-
     public string currentCode = ""; // Current code being built
     private SelectableObject selectedObject; // Currently selected object
 
@@ -17,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI successMessageText; // TMP Text for success messages
     public TextMeshProUGUI errorMessageText; // TMP Text for error messages
+
+    public Transform objectToScale; // Reference to the object whose Y scale you want to change
 
     private void Awake()
     {
@@ -34,7 +35,13 @@ public class GameManager : MonoBehaviour
     // Call this method when an object is clicked
     public void SelectObject(SelectableObject obj)
     {
+        if (selectedObject != null)
+        {
+            selectedObject.Deselect(); // Deselect previously selected object
+        }
+
         selectedObject = obj;
+        selectedObject.Select(); // Change color to indicate selection
     }
 
     // Call this method to append the code to the 5th object
@@ -48,7 +55,11 @@ public class GameManager : MonoBehaviour
                 if (currentCode.Length + newCode.Length <= 4)
                 {
                     currentCode += newCode;
+                    selectedObject.Deselect(); // Deselect after appending code
                     selectedObject = null; // Clear selection
+
+                    // Increase the Y scale of the object by 0.5
+                    IncreaseObjectScale();
 
                     // Check if the code is complete
                     if (currentCode.Length == 4)
@@ -72,6 +83,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Method to increase the Y scale of the object
+    private void IncreaseObjectScale()
+    {
+        if (objectToScale != null)
+        {
+            Vector3 newScale = objectToScale.localScale;
+            newScale.y += 0.5f;
+            objectToScale.localScale = newScale;
+        }
+        else
+        {
+            Debug.LogError("objectToScale is not assigned in the GameManager.");
+        }
+    }
+
     // Check if the current code matches the predefined code
     private void CheckCode()
     {
@@ -79,14 +105,25 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Code matched!");
             OpenDoors(); // Open the doors when the code is correct
-            DisplayMessage(successMessageText, "Code is correct! Head to the basement. "); // Display success message
+            DisplayMessage(successMessageText, "Code is correct! Head to the basement."); // Display success message
         }
         else
         {
             Debug.Log("Code did not match. Try again.");
             DisplayMessage(errorMessageText, "Code is incorrect. Try again."); // Display error message
-            // Reset the code
-            currentCode = "";
+            ResetObjectScale(); // Reset the Y scale if the code is incorrect
+            currentCode = ""; // Reset the code
+        }
+    }
+
+    // Method to reset the Y scale of the object
+    private void ResetObjectScale()
+    {
+        if (objectToScale != null)
+        {
+            Vector3 newScale = objectToScale.localScale;
+            newScale.y = 0f; // Reset the Y scale to 0
+            objectToScale.localScale = newScale;
         }
     }
 
@@ -110,8 +147,6 @@ public class GameManager : MonoBehaviour
                 doorSound2.Play();
             }
         }
-
-        // Optionally, you can add code to disable further code entry if necessary
     }
 
     // Display a message on the screen
@@ -122,7 +157,6 @@ public class GameManager : MonoBehaviour
             textComponent.text = message;
             textComponent.gameObject.SetActive(true);
 
-            // Hide the message after a delay (optional)
             Invoke("HideMessage", 3f); // Hide after 3 seconds
         }
     }

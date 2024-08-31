@@ -88,7 +88,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuCanvas.SetActive(false);
         settingsMenuCanvas.SetActive(true);
-        
+        Debug.Log(settingsMenuCanvas.activeSelf);
         // Ensure index menu is hidden when settings menu is opened
         if (indexMenuCanvas != null) indexMenuCanvas.SetActive(false);
     }

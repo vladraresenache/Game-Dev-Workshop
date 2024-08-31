@@ -44,6 +44,7 @@ public class MouseLook : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         inspectCanvas.SetActive(false);
         exitInspectCanvas.SetActive(false);
         inventoryCanvas.SetActive(false);
@@ -151,6 +152,7 @@ public class MouseLook : MonoBehaviour
         pauseMenuCanvas.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         player.GetComponent<CharacterController>().enabled = false;
         canMoveCamera = false;
         Time.timeScale = 0f; // Freeze the game
@@ -163,6 +165,7 @@ public class MouseLook : MonoBehaviour
     {
         isGamePaused = false;
         pauseMenuCanvas.SetActive(false);
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         player.GetComponent<CharacterController>().enabled = true;
         canMoveCamera = true;
@@ -173,6 +176,7 @@ public class MouseLook : MonoBehaviour
     {
         inventoryCanvas.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible=true;
         player.GetComponent<CharacterController>().enabled = false;
         canMoveCamera = false;
         Time.timeScale = 0f; // Freeze the game while inventory is open
@@ -182,6 +186,7 @@ public class MouseLook : MonoBehaviour
     {
         inventoryCanvas.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; 
         player.GetComponent<CharacterController>().enabled = true;
         canMoveCamera = true;
         Time.timeScale = 1f; // Unfreeze the game when inventory is closed

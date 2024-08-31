@@ -635,7 +635,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1414362927}
+        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+        m_MethodName: SetGraphicsQuality
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &140410632
 MonoBehaviour:
@@ -1361,7 +1373,7 @@ AudioSource:
   m_GameObject: {fileID: 267951907}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 4dd28a97ce5212c4881a8db6e4f6a7c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 9f6eacfbcb9fb0944ac3dfef2c119a3d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -2712,10 +2724,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1414362927}
+        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1216771904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3529,9 +3553,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414362920}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2215d3315a9c2da4bab49e6625a12cad, type: 3}
+  m_Script: {fileID: 11500000, guid: b10ee54cb9ddbe94883eb8c9134762f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsMenuCanvas: {fileID: 1414362920}
+  pauseMenuCanvas: {fileID: 1216771904}
+  soundSlider: {fileID: 1160180446}
+  graphicsDropdown: {fileID: 140410631}
+  audioMixer: {fileID: 24100000, guid: 4dd28a97ce5212c4881a8db6e4f6a7c9, type: 2}
 --- !u!1001 &1485314454
 PrefabInstance:
   m_ObjectHideFlags: 0
