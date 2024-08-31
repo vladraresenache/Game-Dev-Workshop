@@ -1,33 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;  // Required for TextMeshProUGUI
 using System.Collections;
 
 public class FadeManager : MonoBehaviour
 {
-    public Image whiteImage;     // Reference to the white overlay image
-    public Image blackImage;     // Reference to the black overlay image
-    public float fadeDuration = 1.0f;  // Duration of each fade (to white and back to clear)
-    public float waitDuration = 1.0f;  // Duration to wait before fading back to clear
+    public Image whiteImage;              // Reference to the white overlay image
+    public Image blackImage;              // Reference to the black overlay image
+    public TextMeshProUGUI textElement1;  // Reference to the first TextMeshProUGUI element
+    public TextMeshProUGUI textElement2;  // Reference to the second TextMeshProUGUI element
+    public Image additionalImage;         // Reference to the additional image
+    public float fadeDuration = 1.0f;     // Duration of each fade (in and out)
+    public float waitDuration = 1.0f;     // Duration to wait before fading back to clear
 
     private float fadeTimer;
     private bool isFadingToWhite;
     private bool isFadingToClear;
-    private bool isWaiting;
     private bool isFadingFromBlack;
 
     void Start()
     {
-        // Set the initial alpha of the white and black images
-        Color whiteColor = whiteImage.color;
-        whiteColor.a = 0f;
-        whiteImage.color = whiteColor;
-
-        Color blackColor = blackImage.color;
-        blackColor.a = 0f;
-        blackImage.color = blackColor;
-
-        // Optionally, start any fade sequences here
-        // StartCoroutine(FadeSequence());  // Example call
+        // Set the initial alpha of the images and text elements
+        SetAlpha(whiteImage, 0f);
+        SetAlpha(blackImage, 0f);
+        SetAlpha(textElement1, 0f);
+        SetAlpha(textElement2, 0f);
+        SetAlpha(additionalImage, 0f);
     }
 
     void Update()
@@ -37,10 +35,7 @@ public class FadeManager : MonoBehaviour
         {
             fadeTimer += Time.deltaTime;
             float alpha = Mathf.Clamp01(fadeTimer / fadeDuration);
-
-            Color color = whiteImage.color;
-            color.a = alpha;
-            whiteImage.color = color;
+            SetAlpha(whiteImage, alpha);
 
             // If fully white, stop fading to white and start waiting to fade back to clear
             if (alpha >= 1f)
@@ -55,10 +50,7 @@ public class FadeManager : MonoBehaviour
         {
             fadeTimer += Time.deltaTime;
             float alpha = Mathf.Clamp01(1.0f - (fadeTimer / fadeDuration));
-
-            Color color = whiteImage.color;
-            color.a = alpha;
-            whiteImage.color = color;
+            SetAlpha(whiteImage, alpha);
 
             // Stop fading once fully clear
             if (alpha <= 0f)
@@ -72,10 +64,7 @@ public class FadeManager : MonoBehaviour
         {
             fadeTimer += Time.deltaTime;
             float alpha = Mathf.Clamp01(1.0f - (fadeTimer / fadeDuration));
-
-            Color color = blackImage.color;
-            color.a = alpha;
-            blackImage.color = color;
+            SetAlpha(blackImage, alpha);
 
             // Stop fading once fully clear
             if (alpha <= 0f)
@@ -85,16 +74,65 @@ public class FadeManager : MonoBehaviour
         }
     }
 
-    // Coroutine for the full fade sequence: to white, wait, then to clear
-    IEnumerator FadeSequence()
+    // Method to set the alpha of an Image or TextMeshProUGUI
+    private void SetAlpha(Graphic graphic, float alpha)
     {
-        StartFadeToWhite();
-        yield return new WaitUntil(() => !isFadingToWhite);
+        if (graphic != null)
+        {
+            Color color = graphic.color;
+            color.a = alpha;
+            graphic.color = color;
+        }
+    }
 
-        yield return new WaitForSeconds(waitDuration);
+    // Method to fade in and out two TextMeshProUGUI elements
+    public void FadeTexts()
+    {
+        StartCoroutine(FadeTextsCoroutine(textElement1));
+    }
 
-        StartFadeToClear();
-        yield return new WaitUntil(() => !isFadingToClear);
+    private IEnumerator FadeTextsCoroutine(TextMeshProUGUI text1)
+    {
+        // Fade in both texts
+        for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
+        {
+            SetAlpha(text1, Mathf.Lerp(0f, 1f, t / fadeDuration));
+           
+            yield return null;
+        }
+
+        // Fade out both texts
+        for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
+        {
+            SetAlpha(text1, Mathf.Lerp(1f, 0f, t / fadeDuration));
+            
+            yield return null;
+        }
+    }
+
+    // Method to fade in and out an image and a TextMeshProUGUI element together
+    public void FadeImageAndText()
+    {
+        StartCoroutine(FadeImageAndTextCoroutine(additionalImage, textElement2));
+    }
+
+    private IEnumerator FadeImageAndTextCoroutine(Image image, TextMeshProUGUI text)
+    {
+        // Fade in both the image and the text
+        for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
+        {
+            SetAlpha(image, Mathf.Lerp(0f, 1f, t / fadeDuration));
+            SetAlpha(text, Mathf.Lerp(0f, 1f, t / fadeDuration));
+            yield return null;
+        }
+
+        // Fade out both the image and the text
+        for (float t = 0.01f; t < fadeDuration; t += Time.deltaTime)
+        {
+            SetAlpha(image, Mathf.Lerp(1f, 0f, t / fadeDuration));
+            SetAlpha(text, Mathf.Lerp(1f, 0f, t / fadeDuration));
+            yield return null;
+        }
     }
 
     // Method to start the fade to white effect
