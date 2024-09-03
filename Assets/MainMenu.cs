@@ -41,6 +41,9 @@ public class MainMenu : MonoBehaviour
             backButton.onClick.AddListener(HideOptionsMenu);
         }
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         Debug.Log("MainMenu script initialized.");
     }
 

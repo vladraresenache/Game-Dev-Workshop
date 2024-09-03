@@ -27,10 +27,7 @@ public class SettingsMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            BackToPauseMenu();
-        }
+        
     }
 
     public void SetVolume()

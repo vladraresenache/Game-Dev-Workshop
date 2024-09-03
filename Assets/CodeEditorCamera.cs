@@ -181,6 +181,7 @@ public class SumCalculator
                 interactMessage.gameObject.SetActive(false);
             }
         }
+
     }
 
     private void SwitchToCodeEditorCamera()

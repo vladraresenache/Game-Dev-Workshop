@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;  // Required for using Slider
 
 public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 500f;
+    public float maximumSensitivity = 500f;
     public Transform playerBody;
     private float xRotation = 0f;
 
@@ -27,19 +29,26 @@ public class MouseLook : MonoBehaviour
     public GameObject exitInspectCanvas;
     public GameObject inventoryCanvas;
     public GameObject pauseMenuCanvas;
+    public GameObject settingsMenuCanvas;
 
     public AssetDisplayManager assetDisplayManager;
     public NotificationManager notificationManager;
+
+    public Slider SensitivitySlider;
+
 
     public AudioSource unlockSound;  // AudioSource for the unlock sound effect
 
     // Zoom variables
     public Camera playerCamera;
-    public float zoomFOV = 20f;        // Field of view when zoomed in
+    public float zoomFOV = 30f;        // Field of view when zoomed in
     public float normalFOV = 60f;      // Default field of view
     public float zoomSpeed = 10f;      // Speed of zooming in and out
 
     private bool isZoomed = false;
+
+    // Reference to the sensitivity slider
+    public Slider sensitivitySlider;
 
     void Start()
     {
@@ -49,6 +58,7 @@ public class MouseLook : MonoBehaviour
         exitInspectCanvas.SetActive(false);
         inventoryCanvas.SetActive(false);
         pauseMenuCanvas.SetActive(false); // Hide pause menu initially
+        settingsMenuCanvas.SetActive(false);
 
         // Ensure the camera has a reference
         if (playerCamera == null)
@@ -58,12 +68,20 @@ public class MouseLook : MonoBehaviour
 
         // Set the default FOV
         playerCamera.fieldOfView = normalFOV;
+
+        // Initialize the slider value to match the current sensitivity
+        if (sensitivitySlider != null)
+        {
+            sensitivitySlider.value = mouseSensitivity;
+            sensitivitySlider.onValueChanged.AddListener(UpdateSensitivity);
+        }
     }
 
     void Update()
     {
         bool isInventoryOpen = inventoryCanvas.activeSelf;
         bool isPauseMenuActive = pauseMenuCanvas.activeSelf;
+        bool isSettingsMenuActive = settingsMenuCanvas.activeSelf;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -88,6 +106,7 @@ public class MouseLook : MonoBehaviour
                 OpenInventory();
             }
         }
+
 
         if (canMoveCamera && !isInventoryOpen)
         {
@@ -142,7 +161,7 @@ public class MouseLook : MonoBehaviour
         else
         {
             // Debugging information
-           
+
         }
     }
 
@@ -159,6 +178,7 @@ public class MouseLook : MonoBehaviour
 
         // Disable other UI elements
         if (inventoryCanvas != null) inventoryCanvas.SetActive(false);
+        if (settingsMenuCanvas != null) settingsMenuCanvas.SetActive(false);
     }
 
     void ResumeGame()
@@ -170,26 +190,29 @@ public class MouseLook : MonoBehaviour
         player.GetComponent<CharacterController>().enabled = true;
         canMoveCamera = true;
         Time.timeScale = 1f; // Unfreeze the game
+        if (settingsMenuCanvas != null) settingsMenuCanvas.SetActive(false);
     }
 
     public void OpenInventory()
     {
         inventoryCanvas.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible=true;
+        Cursor.visible = true;
         player.GetComponent<CharacterController>().enabled = false;
         canMoveCamera = false;
         Time.timeScale = 0f; // Freeze the game while inventory is open
+        if (settingsMenuCanvas != null) settingsMenuCanvas.SetActive(false);
     }
 
     public void CloseInventory()
     {
         inventoryCanvas.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; 
+        Cursor.visible = false;
         player.GetComponent<CharacterController>().enabled = true;
         canMoveCamera = true;
         Time.timeScale = 1f; // Unfreeze the game when inventory is closed
+        if (settingsMenuCanvas != null) settingsMenuCanvas.SetActive(false);
     }
 
     void CheckForInspectableObject()
@@ -352,5 +375,12 @@ public class MouseLook : MonoBehaviour
             playerCamera.fieldOfView = zoomFOV;
         }
         isZoomed = !isZoomed;
+    }
+
+    // Method to update the mouse sensitivity based on slider value
+    public void UpdateSensitivity(float newSensitivity)
+    {
+        newSensitivity = sensitivitySlider.value*maximumSensitivity;
+        mouseSensitivity = newSensitivity;
     }
 }

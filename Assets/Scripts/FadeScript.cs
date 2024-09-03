@@ -11,6 +11,7 @@ public class FadeScript : MonoBehaviour
 
     [SerializeField] private bool FadeOut = false;
 
+
     public void Setup()
     {
         myUIGroup.alpha = 0.0f;
@@ -63,6 +64,8 @@ public class FadeScript : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Setup();
         ShowUI();
     }

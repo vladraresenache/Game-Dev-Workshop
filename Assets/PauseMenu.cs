@@ -17,34 +17,31 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        /*
         // Toggle pause menu with Escape key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("hehe");
-            if (pauseMenuCanvas.activeSelf)
+            // If the settings menu is active, close it and return to the pause menu
+            if (settingsMenuCanvas.activeSelf)
             {
-                ResumeGame();
+                CloseSettings();
             }
-            else
-            {
-                PauseGame();
-            }
-        }*/
-        /*
-        // Toggle index menu with Tab key if the game is not paused
-        if (Input.GetKeyDown(KeyCode.Tab) && !pauseMenuCanvas.activeSelf)
-        {
-            Debug.Log("tabMenu");
-            if (indexMenuCanvas.activeSelf)
+            // If the index menu is active, close it and return to the pause menu
+            else if (indexMenuCanvas.activeSelf)
             {
                 CloseIndexMenu();
             }
+            // If the pause menu is active, resume the game
+            else if (pauseMenuCanvas.activeSelf)
+            {
+                ResumeGame();
+            }
+            // If no menu is active, open the pause menu
             else
             {
-                OpenIndexMenu();
+                Debug.Log("hehe");
+                PauseGame();
             }
-        }*/
+        }
     }
 
     public void PauseGame()
